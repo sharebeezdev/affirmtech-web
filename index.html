@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sharebeez - Community Commerce</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* Base Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #121212;
+      color: #e0e0e0;
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+    }
+    /* Navigation */
+    nav {
+      background: #1e1e1e;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid #333;
+    }
+    nav h1 {
+      font-size: 24px;
+      color: #03dac6;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+    }
+    nav ul li {
+      margin: 0 15px;
+      cursor: pointer;
+      color: #aaa;
+      transition: color 0.3s;
+    }
+    nav ul li:hover {
+      color: #03dac6;
+    }
+    /* Container */
+    .container {
+      padding: 100px 20px 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .tab-content {
+      display: none;
+    }
+    .active-tab {
+      display: block;
+    }
+    /* Sections */
+    .section {
+      background: #1e1e1e;
+      padding: 20px;
+      margin-bottom: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+    }
+    .section h2 {
+      margin-bottom: 15px;
+      color: #03dac6;
+    }
+    .section p {
+      margin-bottom: 15px;
+    }
+    .section ul {
+      list-style: disc inside;
+      margin-left: 20px;
+    }
+    .section ul li {
+      margin: 8px 0;
+    }
+    /* Cards Grid */
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .card {
+      background: #242424;
+      flex: 1;
+      min-width: 250px;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+      transition: transform 0.3s;
+    }
+    .card i {
+      font-size: 36px;
+      margin-bottom: 10px;
+      color: #03dac6;
+    }
+    .card h3 {
+      margin-bottom: 10px;
+      font-size: 20px;
+      color: #fff;
+    }
+    .card p {
+      font-size: 14px;
+      color: #ccc;
+    }
+    .card:hover {
+      transform: scale(1.03);
+    }
+    /* Testimonials */
+    .testimonials {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+    }
+    .testimonial {
+      background: #242424;
+      flex: 0 0 300px;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    }
+    .testimonial p {
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+    .testimonial small {
+      display: block;
+      font-size: 13px;
+      color: #aaa;
+    }
+    /* FAQ Styles */
+    .faq-item {
+      background: #242424;
+      margin-bottom: 10px;
+      padding: 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+      transition: background 0.3s;
+    }
+    .faq-item:hover {
+      background: #2a2a2a;
+    }
+    .faq-item h3 {
+      font-size: 16px;
+      color: #fff;
+    }
+    .faq-item p {
+      display: none;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #ccc;
+    }
+    /* Contact Card */
+    .contact-card {
+      background: #242424;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+      max-width: 400px;
+      margin: 20px auto;
+      text-align: left;
+    }
+    .contact-card p {
+      margin: 10px 0;
+    }
+    /* Footer */
+    footer {
+      background: #1e1e1e;
+      padding: 15px;
+      text-align: center;
+      color: #aaa;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      font-size: 14px;
+    }
+    /* Responsive */
+    @media (max-width: 768px) {
+      .cards {
+        flex-direction: column;
+      }
+      nav ul {
+        flex-direction: column;
+      }
+      nav ul li {
+        margin: 10px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <h1>Sharebeez</h1>
+    <ul>
+      <li onclick="showTab('home')">Home</li>
+      <li onclick="showTab('about')">About Us</li>
+      <li onclick="showTab('faq')">FAQ</li>
+      <li onclick="showTab('contact')">Contact Us</li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <!-- Home Tab -->
+    <div id="home" class="tab-content active-tab">
+      <!-- Our Vision Section -->
+      <div class="section">
+        <h2>Our Vision</h2>
+        <p>
+          We believe that collaboration leads to better savings and smarter
+          consumption. Sharebeez enables users to:
+        </p>
+        <div class="cards">
+          <div class="card">
+            <i class="fas fa-shopping-cart"></i>
+            <h3>Buy Together &amp; Save More</h3>
+            <p>Lower costs by purchasing in groups.</p>
+          </div>
+          <div class="card">
+            <i class="fas fa-box-open"></i>
+            <h3>Sell Excess Goods</h3>
+            <p>
+              Find buyers for surplus stock, unused tools, or extra household
+              items.
+            </p>
+          </div>
+          <div class="card">
+            <i class="fas fa-handshake"></i>
+            <h3>Rent &amp; Share Services</h3>
+            <p>
+              Offer or borrow equipment and professional services within the
+              community.
+            </p>
+          </div>
+          <div class="card">
+            <i class="fas fa-truck"></i>
+            <h3>Community-Driven Deliveries</h3>
+            <p>
+              Reduce logistics costs by using local routes and peer-to-peer
+              delivery.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key Features Section -->
+      <div class="section">
+        <h2>Key Features</h2>
+        <div class="cards">
+          <div class="card">
+            <i class="fas fa-users"></i>
+            <h3>Group Buying</h3>
+            <p>
+              Harness collective buying power to secure the best discounts.
+            </p>
+          </div>
+          <div class="card">
+            <i class="fas fa-receipt"></i>
+            <h3>Efficient Selling</h3>
+            <p>
+              Quickly move excess inventory through our dynamic marketplace.
+            </p>
+          </div>
+          <div class="card">
+            <i class="fas fa-exchange-alt"></i>
+            <h3>Resource Sharing</h3>
+            <p>
+              Seamlessly rent or borrow tools, equipment, and services.
+            </p>
+          </div>
+          <div class="card">
+            <i class="fas fa-shipping-fast"></i>
+            <h3>Local Delivery</h3>
+            <p>
+              Enjoy fast, community-driven delivery that reduces costs.
+            </p>
+          </div>
+          <div class="card">
+            <i class="fas fa-leaf"></i>
+            <h3>Sustainable Commerce</h3>
+            <p>
+              Promote eco-friendly practices while enjoying quality service.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Partnerships & Collaborations Section -->
+      <div class="section">
+        <h2>Partnerships &amp; Collaborations</h2>
+        <p>
+          We believe in strengthening communities by working with businesses
+          that share our vision. Sharebeez is proud to collaborate with:
+        </p>
+        <div class="cards">
+          <div class="card">
+            <i class="fas fa-store"></i>
+            <h3>Local Vendors</h3>
+            <p>
+              • We support small and medium-sized businesses by helping them
+              reach more customers through group buying and preorder solutions.
+              <br />• Our community-driven model reduces excess inventory and
+              helps vendors sell more efficiently.
+            </p>
+          </div>
+          <div class="card">
+            <i class="fas fa-leaf"></i>
+            <h3>Wise Yogi</h3>
+            <p>
+              • Sharebeez partners with Wise Yogi, a venture focused on sourcing
+              authentic Indian products directly from farmers and manufacturers.
+              <br />• Through this partnership, we bring high-quality, ethically
+              sourced goods to customers while supporting sustainable commerce.
+            </p>
+          </div>
+          <div class="card">
+            <i class="fas fa-gem"></i>
+            <h3>Anthea</h3>
+            <p>
+              • Anthea is another key partner helping us enhance our community
+              marketplace by introducing unique, high-quality products to our
+              platform.
+              <br />• Together, we provide customers with exclusive offerings
+              while promoting fair trade and ethical sourcing.
+            </p>
+          </div>
+          <div class="card">
+            <i class="fas fa-truck-moving"></i>
+            <h3>USPS</h3>
+            <p>
+              • Sharebeez has partnered with USPS to offer secure, reliable, and
+              affordable shipping for buyers and sellers across the U.S.
+              <br />• This ensures timely deliveries, tracking options, and
+              cost-effective logistics for our community marketplace.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Test Pilot Success & Achievements Section -->
+      <div class="section">
+        <h2>Test Pilot Success &amp; Achievements</h2>
+        <p>
+          To refine our platform, Sharebeez conducted multiple test pilot
+          programs in at least three cities, proving the effectiveness of our
+          community-driven model.
+        </p>
+        <div class="cards">
+          <div class="card">
+            <h3>Pilot 1: Group Buying for Non-Perishable Goods</h3>
+            <p><strong>Location:</strong> North Carolina</p>
+            <p><strong>Participants:</strong> 75+ households</p>
+            <p>
+              <strong>Success:</strong><br />
+              • Buyers saved 20-35% on bulk purchases of home essentials,
+              electronics, and tools.<br />
+              • Vendors saw a 30% increase in pre-orders, reducing unsold stock
+              and storage costs.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Pilot 2: Community Marketplace for Excess Goods &amp; Tools</h3>
+            <p><strong>Location:</strong> Multiple neighborhoods</p>
+            <p><strong>Participants:</strong> 100+ sellers and buyers</p>
+            <p>
+              <strong>Success:</strong><br />
+              • Individuals successfully sold excess household items, unused
+              tools, and services within their community.<br />
+              • Businesses cleared out overstock inventory without relying on
+              traditional discounting.<br />
+              • Increased reuse and shared ownership, promoting sustainability.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Pilot 3: Shared Delivery &amp; Logistics</h3>
+            <p><strong>Location:</strong> Regional pilot program</p>
+            <p>
+              <strong>Participants:</strong> 50+ community members acting as
+              local couriers
+            </p>
+            <p>
+              <strong>Success:</strong><br />
+              • Reduced delivery costs by 40% compared to commercial couriers.<br />
+              • 85% of deliveries were completed within 24 hours by community
+              members using their regular travel routes.<br />
+              • Participants earned discounts and perks for making deliveries.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upcoming Features Section -->
+      <div class="section">
+        <h2>Upcoming Features in Sharebeez</h2>
+        <div class="cards">
+          <div class="card">
+            <i class="fas fa-credit-card"></i>
+            <h3>Advanced Group Payment Options</h3>
+            <p>
+              Allowing multiple users to contribute seamlessly to group
+              purchases.
+            </p>
+          </div>
+          <div class="card">
+            <i class="fas fa-motorcycle"></i>
+            <h3>Enhanced Community-Driven Delivery System</h3>
+            <p>
+              Integrating rewards, discounts, and perks for individuals making
+              deliveries along their regular routes.
+            </p>
+          </div>
+          <div class="card">
+            <i class="fas fa-handshake-alt"></i>
+            <h3>Vendor &amp; Manufacturer Partnerships</h3>
+            <p>
+              Expanding partnerships with local vendors, Wise Yogi, and Anthea to
+              bring high-quality, ethical, and sustainable products to the
+              platform.
+            </p>
+          </div>
+          <div class="card">
+            <i class="fas fa-cogs"></i>
+            <h3>Smart Resource Sharing</h3>
+            <p>
+              Streamlining the ability to rent or borrow tools, equipment, and
+              professional services.
+            </p>
+          </div>
+          <div class="card">
+            <i class="fas fa-leaf"></i>
+            <h3>Improved Sustainability Features</h3>
+            <p>
+              Encouraging the use of eco-friendly packaging and reducing
+              unnecessary waste.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Customer Testimonials Section -->
+      <div class="section">
+        <h2>Customer Testimonials</h2>
+        <div class="testimonials">
+          <div class="testimonial">
+            <p>
+              ⭐ “The quality of the products we receive through Sharebeez is
+              always top-notch. Everything arrives fresh, well-packaged, and in
+              excellent condition. It’s a great way to get essentials at a fair
+              price!”
+            </p>
+            <small>– Community Buyer</small>
+          </div>
+          <div class="testimonial">
+            <p>
+              ⭐ “Being able to sell my excess stock without heavy discounts or
+              waste has been a game changer. Sharebeez helps small businesses like
+              mine connect directly with buyers looking for deals.”
+            </p>
+            <small>– Local Vendor</small>
+          </div>
+          <div class="testimonial">
+            <p>
+              ⭐ “I love how Sharebeez promotes sustainable packaging. It’s
+              refreshing to see a marketplace that values the environment while
+              ensuring product quality.”
+            </p>
+            <small>– Eco-Conscious Shopper</small>
+          </div>
+          <div class="testimonial">
+            <p>
+              ⭐ “A win-win situation! Buyers save money, sellers move their
+              products efficiently, and we’re all reducing waste. This platform
+              truly focuses on well-being at a fair price.”
+            </p>
+            <small>– Sharebeez User</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- About Us Tab -->
+    <div id="about" class="tab-content">
+      <div class="section">
+        <h2>About Us</h2>
+        <p>
+          Affirm Technologies LLC is a North Carolina-registered technology
+          company developing Sharebeez, an innovative platform designed to help
+          communities save money, share resources, and support local businesses.
+        </p>
+        <p>
+          Our mission is to empower individuals and businesses by enabling group
+          buying, resource-sharing, and community-driven deliveries for
+          non-perishable goods, excess inventory, tools, and services. Whether
+          you want to buy in bulk, sell unused items, or share equipment, Sharebeez
+          provides a seamless digital marketplace for cost-effective, community-driven
+          commerce.
+        </p>
+        <p>
+          As we continue to expand, our beta app – tested in at least three cities –
+          is evolving with new features to enhance the community marketplace experience:
+        </p>
+        <ul>
+          <li>
+            <strong>Advanced Group Payment Options</strong> – Allowing multiple users
+            to contribute seamlessly to group purchases.
+          </li>
+          <li>
+            <strong>Enhanced Community-Driven Delivery System</strong> – Integrating
+            rewards, discounts, and perks for individuals making deliveries along their
+            regular routes.
+          </li>
+          <li>
+            <strong>Vendor &amp; Manufacturer Partnerships</strong> – Expanding
+            partnerships with local vendors, Wise Yogi, and Anthea to bring high-quality,
+            ethical, and sustainable products to the platform.
+          </li>
+          <li>
+            <strong>Smart Resource Sharing</strong> – Streamlining the ability to rent or
+            borrow tools, equipment, and professional services.
+          </li>
+          <li>
+            <strong>Improved Sustainability Features</strong> – Encouraging the use of
+            eco-friendly packaging and reducing unnecessary waste.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- FAQ Tab -->
+    <div id="faq" class="tab-content">
+      <div class="section">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-item">
+          <h3>Q1: What can I buy or sell on Sharebeez?</h3>
+          <p>
+            A: You can buy or sell non-perishable goods, excess inventory, tools, and services.
+          </p>
+        </div>
+        <div class="faq-item">
+          <h3>Q2: How does group buying work?</h3>
+          <p>
+            A: Group buying allows users to pool their purchases to access bulk discounts from vendors.
+          </p>
+        </div>
+        <div class="faq-item">
+          <h3>Q3: How do I join a community delivery?</h3>
+          <p>
+            A: Once you sign up, you can volunteer as a local courier to help with community-driven deliveries.
+          </p>
+        </div>
+        <div class="faq-item">
+          <h3>Q4: What payment methods are supported?</h3>
+          <p>
+            A: We support various payment options including credit/debit cards and digital wallets.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Us Tab -->
+    <div id="contact" class="tab-content">
+      <div class="section">
+        <h2>Contact Us</h2>
+        <div class="contact-card">
+          <p><strong>Address:</strong> Affirm Technologies LLC (DBA Sharebeez)</p>
+          <p><strong>Email:</strong> support@sharebeez.com</p>
+          <p><strong>Phone:</strong> 9196415775</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2024 Sharebeez. All Rights Reserved.
+  </footer>
+
+  <script>
+    // Tab switching
+    function showTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(function (tab) {
+        tab.classList.remove('active-tab');
+      });
+      document.getElementById(tabId).classList.add('active-tab');
+    }
+
+    // FAQ toggle
+    document.querySelectorAll('.faq-item').forEach(function (item) {
+      item.addEventListener('click', function () {
+        var answer = this.querySelector('p');
+        answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+      });
+    });
+  </script>
+</body>
+</html>
